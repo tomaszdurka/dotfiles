@@ -23,7 +23,11 @@ function extract() {
 
 # find shorthand
 function f() {
-    find . -name "$1"
+	if [ "$2" != "" ]; then
+    	find $2 -name "$1"
+	else
+    	find . -name "$1"
+    fi
 }
 
 function md() {
