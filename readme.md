@@ -1,6 +1,6 @@
-# tomaszdurka@dotfiles
+## tomaszdurka@dotfiles
 
-## Installation
+### Installation
 ```bash
 git clone git@github.com:tomaszdurka/dotfiles.git
 cd dotfiles
