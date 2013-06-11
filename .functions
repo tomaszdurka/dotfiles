@@ -33,3 +33,14 @@ function f() {
 function md() {
 	mkdir -p "$@" && cd "$@"
 }
+
+
+function github() {
+	GITHUB_REPO=$(git remote -v 2>/dev/null | grep 'origin.*github.com.*fetch' | sed 's/.*github\.com[:/]\(.*\)\.git.*$/\1/')
+	if [ "${GITHUB_REPO}" == "" ]; then
+		echo 'Not github repo/origin'
+	else
+		open "https://www.github.com/${GITHUB_REPO}"
+	fi
+
+}
