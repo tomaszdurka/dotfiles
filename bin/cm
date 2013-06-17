@@ -11,4 +11,4 @@ if [ "$(find . -name cm.php | grep -v /vendor/ | wc -l)" -ne "1" ]; then
 	exit 1
 fi
 
-$($BINARY $@)
+$BINARY $@
