@@ -5,7 +5,7 @@ if (test -z "$BINARY"); then
 	exit 1
 fi
 
-if [ "$(find . -name cm.php | grep -v /vendor/ | wc -l)" -ne "1" ]; then
+if [ $(find . -name cm.php | grep -v /vendor/ | wc -l) -ne 1 ]; then
 	echo "Multiple cm binaries found" 1>&2
 	echo $BINARY
 	exit 1
