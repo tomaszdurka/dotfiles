@@ -1,0 +1,14 @@
+#!/bin/bash
+BINARY=$(find . -name cm.php | grep -v /vendor/)
+if (test -z "$BINARY"); then
+	echo "No CM project" 1>&2
+	exit 1
+fi
+
+if [ "$(find . -name cm.php | grep -v /vendor/ | wc -l)" -ne "1" ]; then
+	echo "Multiple cm binaries found" 1>&2
+	echo $BINARY
+	exit 1
+fi
+
+$($BINARY $@)
