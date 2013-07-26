@@ -31,6 +31,10 @@ function push-request() {
 	fi
 }
 
+function pull-master() {
+	git pull upstream master
+}
+
 
 # Virtual box commands
 function vm-list() {
