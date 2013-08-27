@@ -31,7 +31,7 @@ function push-request() {
 	fi
 }
 
-function pull-master() {
+function pull-upstream() {
 	git pull upstream master
 }
 
