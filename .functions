@@ -27,7 +27,7 @@ function push-request() {
 	gi push
 	gi pull-request 2>/dev/null
 	if (test -n "$1"); then
-		gi comment "@${1} Please review"
+		gi comment "@${1} please review."
 	fi
 }
 
