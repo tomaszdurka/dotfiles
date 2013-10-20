@@ -1,4 +1,3 @@
-" Enhance command-line completion
 set wildmenu
 " Allow cursor keys in insert mode
 set esckeys

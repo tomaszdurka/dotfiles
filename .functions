@@ -54,5 +54,5 @@ function vm-stop() {
 }
 
 function gem-push() {
-    rm *.gem; *.gemspec; gem push *.gem; rm *;
+    rm *.gem 2>/dev/null; gem build *.gemspec; gem push *.gem; rm *.gem;
 }
