@@ -52,3 +52,7 @@ function vm-stop() {
 		vbox controlvm $1 poweroff
 	fi
 }
+
+function gem-push() {
+    rm *.gem; *.gemspec; gem push *.gem; rm *;
+}
