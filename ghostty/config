@@ -1,0 +1,35 @@
+# Ghostty config — https://ghostty.org/docs/config
+# Kept minimal; extend as needed.
+
+# Font
+font-family = "JetBrainsMono Nerd Font"
+font-size = 14
+
+# Theme (Ghostty ships a set of built-in themes; pick one you like).
+theme = catppuccin-mocha
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Window
+window-decoration = true
+window-padding-x = 8
+window-padding-y = 8
+window-save-state = always
+
+# Shell integration
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+# Scrollback (tmux has its own; keep Ghostty modest).
+scrollback-limit = 10000
+
+# Keybindings — quick tmux-sessionizer via a global hotkey.
+# Ghostty binds work outside tmux; inside tmux, prefix + f does the same.
+# Uncomment if you want cmd+p to jump into a session:
+# keybind = cmd+p=text:tmux-sessionizer\r
+
+# macOS-specific niceties
+macos-titlebar-style = tabs
+macos-option-as-alt = true
