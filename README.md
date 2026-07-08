@@ -14,12 +14,15 @@ install.sh                Symlinks everything into place + installs tpm
 ## Install
 
 ```bash
-git clone git@github.com:tomaszdurka/dotfiles.git ~/projects/dotfiles
-cd ~/projects/dotfiles
+git clone git@github.com:tomaszdurka/dotfiles.git
+cd dotfiles
 ./install.sh
 ```
 
-Existing files are backed up with a timestamp; symlinks are refreshed in place.
+Clone wherever you like — `install.sh` resolves the repo's location from its
+own path, and the symlinks it creates point back to that location. Existing
+files at the destinations are backed up with a timestamp before being
+replaced.
 
 Dependencies: `tmux`, `fzf`, `git`. Install with `brew install tmux fzf git`.
 
