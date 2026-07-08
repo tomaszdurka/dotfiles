@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#
+# fzf-based session picker inspired by ThePrimeagen's tmux-sessionizer.
+# Bound to `prefix + f` in tmux.conf; also usable standalone from a shell.
+#
+# Behavior:
+#   - Argument given          -> treat as target directory.
+#   - No argument             -> fzf over project dirs listed in SEARCH_PATHS.
+#   - Selected dir becomes a session named after basename(dir), '.'->'_'.
+#   - If session exists, switch to it; otherwise create it detached and switch.
+
+set -euo pipefail
+
+SEARCH_PATHS=(
+    "$HOME/projects"
+    "$HOME/.config"
+)
+MAXDEPTH=2
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(
+        for p in "${SEARCH_PATHS[@]}"; do
+            [[ -d $p ]] && find "$p" -mindepth 1 -maxdepth "$MAXDEPTH" -type d 2>/dev/null
+        done | sort -u | fzf --prompt="session > "
+    )
+fi
+
+if [[ -z ${selected:-} ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr '.' '_')
+tmux_running=$(pgrep -x tmux || true)
+
+if [[ -z ${TMUX:-} && -z $tmux_running ]]; then
+    exec tmux new-session -s "$selected_name" -c "$selected"
+fi
+
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+if [[ -n ${TMUX:-} ]]; then
+    tmux switch-client -t "$selected_name"
+else
+    tmux attach-session -t "$selected_name"
+fi
