@@ -1,0 +1,21 @@
+# GUI apps installed via Homebrew casks, one per line.
+# Rebuilds install what is listed here and never remove anything else.
+# ./sync.sh merges manually installed casks back into this file.
+1password
+claude
+claude-code
+codex
+docker-desktop
+ghostty
+google-chrome
+humanlayer/humanlayer/humanlayer
+intellij-idea
+minecraft
+notion
+obs
+raycast
+slack
+spotify
+wezterm
+whatsapp
+wispr-flow

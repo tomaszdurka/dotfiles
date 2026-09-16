@@ -1,0 +1,6 @@
+# Packages that sync.sh should never suggest adding to the config.
+# One per line; formulae and casks share this file.
+libyaml
+# zsh-autosuggestions is still installed via brew but its ghost-text feature
+# is deliberately not enabled in the shell config. Safe to brew uninstall.
+zsh-autosuggestions

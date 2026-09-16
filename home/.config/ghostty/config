@@ -1,0 +1,21 @@
+# Ghostty config - kept deliberately thin; tmux does the multiplexing.
+
+theme = Rose Pine Moon
+font-family = Hack Nerd Font
+font-size = 15
+background-opacity = 0.9
+background-blur = 20
+
+# Every new window/tab attaches to the shared "main" tmux session
+# (created if missing). This is the single-terminal-window workflow:
+# all real work lives in tmux sessions, use prefix+f or `t` to switch.
+command = /opt/homebrew/bin/tmux new-session -A -s main
+
+# Selections go straight to the system clipboard.
+copy-on-select = clipboard
+clipboard-read = allow
+clipboard-write = allow
+
+# tmux keeps everything alive, so closing a Ghostty window is harmless.
+confirm-close-surface = false
+window-save-state = never

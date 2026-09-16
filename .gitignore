@@ -1,0 +1,19 @@
+# macOS + nix build noise
+.DS_Store
+result
+result-*
+
+# IDE
+.idea/
+
+# herdr runtime artifacts (regenerated at runtime)
+home/.config/herdr/*.log
+home/.config/herdr/session.json
+home/.config/herdr/*.sock
+home/.config/herdr/release-notes.json
+home/.config/herdr/.plugins.lock
+
+# Pi credentials, runtime state, and Home Manager adoption backups stay local
+home/.pi/agent/auth.json
+home/.pi/agent/**/*.backup
+home/.pi/agent/calm

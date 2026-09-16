@@ -1,0 +1,21 @@
+# CLI tools installed via Homebrew, one per line.
+# Rebuilds install what is listed here and never remove anything else.
+# ./sync.sh merges manually installed formulae back into this file.
+bat
+caddy
+fd
+fzf
+gh
+git
+herdr
+jq
+lazygit
+neovim
+nvm
+pi-coding-agent
+ripgrep
+tmux
+tree
+zsh
+zsh-completions
+zsh-syntax-highlighting
