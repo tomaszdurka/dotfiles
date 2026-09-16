@@ -1,34 +1,72 @@
 #!/usr/bin/env bash
-# Fuzzy session switcher. Default: active tmux sessions first, then project
-# folders (picking a folder creates/reuses a session named after it, starting
-# there). With --sessions-only, only active sessions are listed. Works from
-# inside tmux (popup / any pane) and from a plain shell.
+# One flat switcher for tmux sessions.
+#   Enter   switch to the picked session
+#   Ctrl+n  start a NEW session: pick a project folder, session is named
+#           after it (with -2, -3... if the name is taken)
+# Each line shows: name, busy/idle (terminal output in the last 30s),
+# number of tabs, and the folder the session lives in.
+# Works from inside tmux (popup / any pane) and from a plain shell.
 set -euo pipefail
 
 # Popups inherit the tmux server's environment, which can be bare if the
 # server was started outside a login shell; make sure our tools are found.
 export PATH="/opt/homebrew/bin:/etc/profiles/per-user/$USER/bin:/run/current-system/sw/bin:$PATH"
 
-sessions=$(tmux list-sessions -F '#S' 2>/dev/null || true)
-projects=""
-if [ "${1:-}" != "--sessions-only" ]; then
-  projects=$(find ~/projects -mindepth 1 -maxdepth 2 -type d -not -name ".*" -not -path "*/.*" 2>/dev/null || true)
+goto() {
+  if [ -n "${TMUX:-}" ]; then
+    tmux switch-client -t "=$1"
+  else
+    tmux attach -t "=$1"
+  fi
+}
+
+new_session() {
+  local dir base name i
+  dir=$(find ~/projects -mindepth 1 -maxdepth 2 -type d -not -name ".*" -not -path "*/.*" 2>/dev/null \
+    | fzf --reverse --prompt="new session in> ") || return 0
+  base=$(basename "$dir" | tr "." "_")
+  name="$base"; i=2
+  while tmux has-session -t "=$name" 2>/dev/null; do
+    name="$base-$i"; i=$((i + 1))
+  done
+  tmux new-session -ds "$name" -c "$dir"
+  goto "$name"
+}
+
+now=$(date +%s)
+current=$(tmux display-message -p '#S' 2>/dev/null || true)
+
+render() {
+  local name path windows activity state here
+  tmux list-sessions -F $'#{session_name}\t#{session_path}\t#{session_windows}\t#{session_activity}' 2>/dev/null \
+  | while IFS=$'\t' read -r name path windows activity; do
+      [ -z "$name" ] && continue
+      state="· idle"
+      [ $((now - activity)) -le 30 ] && state="● busy"
+      here=""
+      [ "$name" = "$current" ] && here="  (current)"
+      # field 1 (hidden in fzf) carries the exact name; field 2 is display
+      printf '%s\t%-16s %s  %2s tabs   %s%s\n' \
+        "$name" "$name" "$state" "$windows" "${path/#$HOME/\~}" "$here"
+    done
+}
+
+list=$(render)
+if [ -z "$list" ]; then
+  new_session
+  exit 0
 fi
 
-pick=$({
-  [ -n "$sessions" ] && printf '%s\n' "$sessions"
-  [ -n "$projects" ] && printf '%s\n' "$projects"
-} | fzf --reverse --prompt="switch> ") || exit 0
+out=$(fzf --reverse --delimiter=$'\t' --with-nth=2 \
+      --prompt="session> " \
+      --header="enter: switch   ctrl-n: new session in a project folder" \
+      --expect=ctrl-n <<< "$list") || exit 0
 
-if [[ "$pick" == /* ]]; then
-  name=$(basename "$pick" | tr "." "_")
-  tmux new-session -ds "$name" -c "$pick" 2>/dev/null || true
-else
-  name="$pick"
-fi
+key=$(head -n1 <<< "$out")
+pick=$(sed -n '2p' <<< "$out")
 
-if [ -n "${TMUX:-}" ]; then
-  tmux switch-client -t "$name"
-else
-  tmux attach -t "$name"
+if [ "$key" = "ctrl-n" ]; then
+  new_session
+elif [ -n "$pick" ]; then
+  goto "$(cut -f1 <<< "$pick")"
 fi

@@ -52,10 +52,12 @@ forever (`brew/ignore.txt`). Commit the result.
 
 ## tmux crash course
 
-- `Ctrl+g` (no prefix, anywhere in tmux): fuzzy switcher over active sessions
+- `Ctrl+g` (no prefix, anywhere in tmux): THE switcher - one flat list of
+  sessions showing busy/idle, tab count, and folder; `Ctrl+n` inside it
+  starts a new session in a project folder you pick; `t` opens the same
+  switcher from a plain shell
 - `prefix` is `Ctrl+b`
-- `prefix f` same switcher plus project folders (to start a new session);
-  `t` does that from a plain shell; `prefix s` session tree with previews
+- `prefix N` rename the current session; `prefix s` session tree with previews
 - `prefix c` new window, `prefix n`/`p` switch windows
 - `prefix "` / `prefix %` split panes, `prefix h/j/k/l` move between panes
 - `prefix d` detach; close the terminal window whenever, nothing is lost
