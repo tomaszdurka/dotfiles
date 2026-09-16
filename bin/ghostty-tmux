@@ -1,0 +1,6 @@
+#!/bin/zsh -l
+# Ghostty's entry command. The -l (login shell) matters: Ghostty launches
+# this with the bare GUI-app PATH, and the tmux SERVER inherits the
+# environment of whoever starts it first. Without the login shell, popups,
+# run-shell, and the resurrect/continuum plugins can't find tmux/git/fzf.
+exec /opt/homebrew/bin/tmux new-session -A -s main

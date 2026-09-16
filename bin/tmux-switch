@@ -5,6 +5,10 @@
 # (popup / any pane) and from a plain shell.
 set -euo pipefail
 
+# Popups inherit the tmux server's environment, which can be bare if the
+# server was started outside a login shell; make sure our tools are found.
+export PATH="/opt/homebrew/bin:/etc/profiles/per-user/$USER/bin:/run/current-system/sw/bin:$PATH"
+
 sessions=$(tmux list-sessions -F '#S' 2>/dev/null || true)
 projects=$(find ~/projects -mindepth 1 -maxdepth 2 -type d -not -name ".*" -not -path "*/.*" 2>/dev/null || true)
 

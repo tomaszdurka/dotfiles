@@ -8,8 +8,9 @@ background-blur = 20
 
 # Every new window/tab attaches to the shared "main" tmux session
 # (created if missing). This is the single-terminal-window workflow:
-# all real work lives in tmux sessions, use prefix+f or `t` to switch.
-command = /opt/homebrew/bin/tmux new-session -A -s main
+# all real work lives in tmux sessions, use Ctrl+g to switch.
+# Goes through a login-shell wrapper so the tmux server gets a full PATH.
+command = /Users/tomasz/.dotfiles/bin/ghostty-tmux
 
 # Selections go straight to the system clipboard.
 copy-on-select = clipboard
