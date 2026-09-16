@@ -31,19 +31,9 @@ in
       export NVM_DIR="$HOME/.nvm"
       [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"
 
-      # t: fuzzy-pick a project folder and jump to a tmux session for it,
-      # creating the session if needed. Works inside and outside tmux.
-      t() {
-        local dir name
-        dir=$(find ~/projects -mindepth 1 -maxdepth 2 -type d -not -name ".*" | fzf --reverse) || return
-        name=$(basename "$dir" | tr "." "_")
-        tmux new-session -ds "$name" -c "$dir" 2>/dev/null
-        if [ -n "$TMUX" ]; then
-          tmux switch-client -t "$name"
-        else
-          tmux attach -t "$name"
-        fi
-      }
+      # t: fuzzy switcher over tmux sessions and project folders.
+      # Same picker as Ctrl+g inside tmux; this works from any plain shell too.
+      t() { ~/.dotfiles/bin/tmux-switch; }
     '';
     shellAliases = {
       ".." = "cd ..";

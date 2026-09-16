@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Unified fuzzy switcher: existing tmux sessions first, then project folders.
+# Picking a session switches to it; picking a folder creates (or reuses) a
+# session named after it, starting in that folder. Works from inside tmux
+# (popup / any pane) and from a plain shell.
+set -euo pipefail
+
+sessions=$(tmux list-sessions -F '#S' 2>/dev/null || true)
+projects=$(find ~/projects -mindepth 1 -maxdepth 2 -type d -not -name ".*" -not -path "*/.*" 2>/dev/null || true)
+
+pick=$({
+  [ -n "$sessions" ] && printf '%s\n' "$sessions"
+  [ -n "$projects" ] && printf '%s\n' "$projects"
+} | fzf --reverse --prompt="switch> ") || exit 0
+
+if [[ "$pick" == /* ]]; then
+  name=$(basename "$pick" | tr "." "_")
+  tmux new-session -ds "$name" -c "$pick" 2>/dev/null || true
+else
+  name="$pick"
+fi
+
+if [ -n "${TMUX:-}" ]; then
+  tmux switch-client -t "$name"
+else
+  tmux attach -t "$name"
+fi
