@@ -17,3 +17,6 @@ home/.config/herdr/.plugins.lock
 home/.pi/agent/auth.json
 home/.pi/agent/**/*.backup
 home/.pi/agent/calm
+
+# home-manager adoption backups
+*.backup

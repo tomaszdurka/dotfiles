@@ -97,14 +97,18 @@ in
   # tmux plugins are managed by TPM. Clone it if missing, then install any
   # plugins declared in tmux.conf (idempotent, skips what's already there),
   # so no manual prefix+I is ever needed.
-  home.activation.installTmuxPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  # Must run after linkGeneration: install_plugins reads ~/.config/tmux/tmux.conf,
+  # which only exists once home-manager has created the symlinks. TERM is set
+  # because the activation environment has none and tmux refuses to start without it.
+  home.activation.installTmuxPlugins = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
     TPM_DIR="$HOME/.config/tmux/plugins/tpm"
     if [ ! -d "$TPM_DIR" ]; then
       ${pkgs.git}/bin/git clone --depth 1 https://github.com/tmux-plugins/tpm "$TPM_DIR" || \
         echo "warning: could not clone tpm (offline?); run 'git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm' later"
     fi
     if [ -d "$TPM_DIR" ]; then
-      PATH="${pkgs.git}/bin:/opt/homebrew/bin:$PATH" "$TPM_DIR/bin/install_plugins" >/dev/null || \
+      TERM=xterm-256color PATH="${pkgs.git}/bin:/opt/homebrew/bin:$PATH" \
+        "$TPM_DIR/bin/install_plugins" >/dev/null || \
         echo "warning: tmux plugin install failed; run prefix+I inside tmux later"
     fi
   '';
