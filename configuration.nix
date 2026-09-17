@@ -35,6 +35,9 @@ in
       # (not just omitted) because the old setup set it to true on this machine.
       _HIHideMenuBar = false;
     };
+    # macOS 26 (Tahoe) renders the menu bar fully transparent by default, so
+    # whatever is behind it bleeds through. This makes it solid again.
+    universalaccess.reduceTransparency = true;
     dock.autohide = true;
     finder.FXPreferredViewStyle = "Nlsv";  # list view by default
     finder.CreateDesktop = false;          # no icons on the desktop
