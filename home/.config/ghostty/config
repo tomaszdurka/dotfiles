@@ -3,9 +3,8 @@
 theme = Rose Pine Moon
 font-family = Hack Nerd Font
 font-size = 14
-# Fully opaque on purpose: translucency made the (already transparent)
-# macOS menu bar unreadable and the text harder to read.
-background-opacity = 1
+background-opacity = 0.9
+background-blur = 20
 
 # Every new window/tab attaches to the shared "main" tmux session
 # (created if missing). This is the single-terminal-window workflow:
