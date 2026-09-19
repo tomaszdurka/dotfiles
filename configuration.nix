@@ -42,6 +42,8 @@ in
     finder.FXPreferredViewStyle = "Nlsv";  # list view by default
     finder.CreateDesktop = false;          # no icons on the desktop
     trackpad.Clicking = true;              # tap to click
+    # Hide the input/emoji ("keyboard") icon from the menu bar.
+    CustomUserPreferences."com.apple.TextInputMenu".visible = false;
   };
 
   nix-homebrew = {
