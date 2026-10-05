@@ -44,6 +44,10 @@ in
     trackpad.Clicking = true;              # tap to click
     # Hide the input/emoji ("keyboard") icon from the menu bar.
     CustomUserPreferences."com.apple.TextInputMenu".visible = false;
+    # BetterSnapTool: snap halves/quarters itself instead of handing them to
+    # macOS native tiling, which animates and sizes windows to the full screen
+    # height (ignoring the menu bar). Thirds always used this classic path.
+    CustomUserPreferences."com.hegenberg.BetterSnapTool".BSTSequoiaUseClassicSnapping = true;
   };
 
   nix-homebrew = {
