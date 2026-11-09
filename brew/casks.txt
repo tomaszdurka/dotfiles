@@ -19,3 +19,9 @@ spotify
 wezterm
 whatsapp
 wispr-flow
+bluestacks
+codexbar
+devin-cli
+gcloud-cli
+loom
+steam

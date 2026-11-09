@@ -70,6 +70,8 @@ in
         name = "humanlayer/humanlayer";
         trusted = true;
       }
+      "hashicorp/tap"   # terraform
+      "steipete/tap"
     ];
   };
 

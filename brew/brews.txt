@@ -19,3 +19,8 @@ tree
 zsh
 zsh-completions
 zsh-syntax-highlighting
+hashicorp/tap/terraform
+just
+python@3.12
+uv
+virtualenv   # needed by the gcloud-cli cask post-install (creates its venv)
