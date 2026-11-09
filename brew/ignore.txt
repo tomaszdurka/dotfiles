@@ -6,3 +6,5 @@ libyaml
 zsh-autosuggestions
 # pulled in as a dependency (brew installed_on_request = false), not chosen by me
 python@3.14
+# build dependency pulled in when compiling python from source, not chosen by me
+pkgconf

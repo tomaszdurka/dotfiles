@@ -12,12 +12,12 @@ BREWS_FILE="$DIR/brew/brews.txt"
 CASKS_FILE="$DIR/brew/casks.txt"
 IGNORE_FILE="$DIR/brew/ignore.txt"
 
-declared() { # print non-comment entries of a file, tap prefixes stripped
-  grep -v '^#' "$1" | sed '/^$/d' | sed 's|.*/||'
+declared() { # print entries of a file: comments and blanks dropped, tap prefixes stripped
+  sed -e 's/#.*//' -e 's/[[:space:]]*$//' -e '/^$/d' -e 's|.*/||' "$1"
 }
 
-is_listed() { # is_listed <name> <file>
-  declared "$2" | grep -qx "$1"
+is_listed() { # is_listed <name> <file>; tap prefixes are ignored on both sides
+  declared "$2" | grep -qx "${1##*/}"
 }
 
 process() { # process <kind> <file> <installed list>
