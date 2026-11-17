@@ -25,3 +25,5 @@ devin-cli
 gcloud-cli
 loom
 steam
+ngrok
+signal
